@@ -24,11 +24,11 @@ public class HashFunction {
 
     private void hashTable() {
         for (int i = 0; i < strArray.length; i++) {
-            int bucketIndex = Math.abs(strArray[i].hashCode() % hashSize);
-            if (table[bucketIndex] == null) {
-                table[bucketIndex] = new MyMapNode(strArray[i]);
+            int hashIndex = Math.abs(strArray[i].hashCode() % hashSize);
+            if (table[hashIndex] == null) {
+                table[hashIndex] = new MyMapNode(strArray[i]);
             } else {
-                MyMapNode currNode = table[bucketIndex];
+                MyMapNode currNode = table[hashIndex];
                 while (currNode != null) {
                     if (currNode.data.equals(strArray[i])) {
                         currNode.frequency++;
@@ -42,6 +42,21 @@ public class HashFunction {
                 }
 
             }
+        }
+    }
+    public void deleteData(String data) {
+        int hashIndex = Math.abs(data.hashCode() % hashSize);
+        if (isEmpty()) {
+            return;
+        }
+        MyMapNode currNode = table[hashIndex];
+        while (currNode != null) {
+            if (currNode.data.equals(data)) {
+                MyMapNode temp = currNode.next;
+                table[hashIndex] = temp;
+                break;
+            }
+            currNode = currNode.next;
         }
     }
 
@@ -58,4 +73,6 @@ public class HashFunction {
             }
         }
     }
+
+
 }
